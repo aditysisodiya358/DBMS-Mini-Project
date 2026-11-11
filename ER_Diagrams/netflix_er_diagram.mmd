@@ -1,0 +1,92 @@
+erDiagram
+    USERS ||--o{ PROFILES : has
+    USERS ||--o{ SUBSCRIPTIONS : purchases
+    SUBSCRIPTION_PLANS ||--o{ SUBSCRIPTIONS : selected_in
+    SUBSCRIPTIONS ||--o{ PAYMENTS : has
+    CONTENT ||--o{ CONTENT_GENRE : classified_as
+    GENRES ||--o{ CONTENT_GENRE : contains
+    PROFILES ||--o{ WATCH_HISTORY : creates
+    CONTENT ||--o{ WATCH_HISTORY : appears_in
+    PROFILES ||--o{ RATINGS : gives
+    CONTENT ||--o{ RATINGS : receives
+    PROFILES ||--o{ WATCHLIST : saves
+    CONTENT ||--o{ WATCHLIST : saved_in
+
+    USERS {
+        int user_id PK
+        varchar full_name
+        varchar email UK
+        varchar password_hash
+        varchar country
+        date signup_date
+    }
+    SUBSCRIPTION_PLANS {
+        int plan_id PK
+        varchar plan_name UK
+        decimal monthly_price
+        tinyint max_screens
+        varchar video_quality
+    }
+    SUBSCRIPTIONS {
+        int subscription_id PK
+        int user_id FK
+        int plan_id FK
+        date start_date
+        date end_date
+        enum status
+    }
+    PAYMENTS {
+        int payment_id PK
+        int subscription_id FK
+        decimal amount
+        date payment_date
+        enum payment_method
+        enum payment_status
+        varchar transaction_reference UK
+    }
+    PROFILES {
+        int profile_id PK
+        int user_id FK
+        varchar profile_name
+        boolean is_kids_profile
+        date created_at
+    }
+    CONTENT {
+        int content_id PK
+        varchar title
+        enum content_type
+        year release_year
+        smallint duration_minutes
+        varchar maturity_rating
+        decimal imdb_rating
+        varchar description
+    }
+    GENRES {
+        int genre_id PK
+        varchar genre_name UK
+    }
+    CONTENT_GENRE {
+        int content_id PK, FK
+        int genre_id PK, FK
+    }
+    WATCH_HISTORY {
+        int history_id PK
+        int profile_id FK
+        int content_id FK
+        datetime watched_at
+        smallint minutes_watched
+        decimal progress_percent
+    }
+    RATINGS {
+        int rating_id PK
+        int profile_id FK
+        int content_id FK
+        decimal rating
+        varchar review_text
+        date rating_date
+    }
+    WATCHLIST {
+        int profile_id PK, FK
+        int content_id PK, FK
+        date added_date
+    }
