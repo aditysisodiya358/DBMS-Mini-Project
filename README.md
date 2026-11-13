@@ -1,4 +1,4 @@
-# 🎬 Netflix Database Management System
+# 🎬 Entertainment and Streaming Management System
 
 **DBMS Course Project · Entertainment & Streaming Platform · MySQL 8.0+**
 
